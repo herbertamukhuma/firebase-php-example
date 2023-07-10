@@ -18,21 +18,21 @@ $factory = (new Factory)->withServiceAccount('firebase_credentials.json');
 $messaging = $factory->createMessaging();
 
 // To be provided by the app
-$deviceToken = '..';
+$deviceToken = 'czVTRFeZSlWmkEcyMLBDsH:APA91bEyGH29qQZw3uAx-oRbPfQ6WZ0kzRMF7HVABNjSUc4NKcDvaoQ4bo3CjVeBm4rqaSK9c4wDs1eICSaLOo2_fagO2y5DJMxWsAq8mS68y2DVQMjHFe4aEBYRca8UC0jMKCzitstH';
 
 $notification = Notification::create('Name Test', 'This is a name test');
-$data = ["name" => "herbert"];
-
-$message = CloudMessage::withTarget('token', $deviceToken)
-    ->withNotification($notification) // optional
-    ->withData($data) // optional
-;
+$data = [
+    "id" => 5487, 
+    "target" => "client_house",
+    "title" => "House View",
+    "body" => "Checkout this house",
+];
 
 $message = CloudMessage::fromArray([
     'token' => $deviceToken,
-    'notification' => $notification,
+    //'notification' => $notification,
     'data' => $data, // optional
-]);
+])->withHighestPossiblePriority();
 
 try {
     $messaging->send($message);
